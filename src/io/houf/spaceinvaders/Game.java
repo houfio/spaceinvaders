@@ -1,7 +1,8 @@
 package io.houf.spaceinvaders;
 
 import io.houf.spaceinvaders.entity.Entity;
-import io.houf.spaceinvaders.entity.impl.PlayerEntity;
+import io.houf.spaceinvaders.entity.impl.InvaderEntity;
+import io.houf.spaceinvaders.entity.impl.ShipEntity;
 import io.houf.spaceinvaders.entity.impl.StarEntity;
 import io.houf.spaceinvaders.ui.Selectable;
 import io.houf.spaceinvaders.ui.UI;
@@ -55,11 +56,14 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     public void startGame() {
         this.current = new Current(this);
-        this.addEntity(new PlayerEntity());
+        this.addEntity(new ShipEntity());
+        this.addEntity(new InvaderEntity(InvaderEntity.Type.TOP, 100, 100));
+        this.addEntity(new InvaderEntity(InvaderEntity.Type.MIDDLE, 200, 200));
+        this.addEntity(new InvaderEntity(InvaderEntity.Type.BOTTOM, 300, 300));
     }
 
     public void stopGame() {
-        this.loopables.removeIf(loopable -> loopable instanceof Entity && ((Entity) loopable).game());
+        this.loopables.removeIf(loopable -> loopable instanceof Entity && ((Entity) loopable).sessionOnly());
         this.current = null;
     }
 
@@ -124,7 +128,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
         this.update++;
 
         if (this.update % 4 == 0) {
-            this.addEntity(new StarEntity(StarEntity.Speed.random(), (int) (Math.random() * Game.WIDTH)));
+            this.addEntity(new StarEntity(StarEntity.Type.random(), (int) (Math.random() * Game.WIDTH)));
         }
 
         this.loopables.stream()

@@ -7,13 +7,13 @@ import java.awt.*;
 import java.util.Random;
 
 public class StarEntity extends Entity {
-    private final Color color;
+    public final Type type;
 
-    public StarEntity(Speed speed, int x) {
-        super(x, 0, speed.size, speed.size, 1.0f);
+    public StarEntity(Type type, int x) {
+        super(x, 0, type.size, type.size, 1.0f);
 
-        this.color = speed.color;
-        this.move((float) Math.random() - 0.5f, speed.velocity);
+        this.type = type;
+        this.move((float) Math.random() * 0.5f - 0.25f, type.velocity);
     }
 
     @Override
@@ -22,8 +22,8 @@ public class StarEntity extends Entity {
 
     @Override
     public void draw(Game game, Graphics2D g) {
-        g.setColor(this.color);
-        g.fillRect((int) this.getX(), (int) this.getY(), this.width, this.height);
+        g.setColor(this.type.color);
+        g.fillRect(this.getX(), this.getY(), this.width, this.height);
     }
 
     @Override
@@ -31,11 +31,17 @@ public class StarEntity extends Entity {
         return 0;
     }
 
-    public boolean game() {
+    @Override
+    public boolean collides(Game game, Entity entity) {
         return false;
     }
 
-    public enum Speed {
+    @Override
+    public boolean sessionOnly() {
+        return false;
+    }
+
+    public enum Type {
         SLOW(Color.DARK_GRAY, 5.0f, 3),
         NORMAL(Color.GRAY, 10.0f, 4),
         FAST(Color.LIGHT_GRAY, 15.0f, 5);
@@ -44,15 +50,15 @@ public class StarEntity extends Entity {
         public final float velocity;
         public final int size;
 
-        Speed(Color color, float velocity, int size) {
+        Type(Color color, float velocity, int size) {
             this.color = color;
             this.velocity = velocity;
             this.size = size;
         }
 
-        public static Speed random() {
+        public static Type random() {
             var random = new Random();
-            var values = Speed.values();
+            var values = Type.values();
 
             return values[random.nextInt(values.length)];
         }
