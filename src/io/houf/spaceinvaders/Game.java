@@ -11,8 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -64,7 +66,6 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     public void stopGame() {
         this.loopables.removeIf(loopable -> loopable instanceof Entity && ((Entity) loopable).sessionOnly());
-        this.current = null;
     }
 
     public void openUI(UI ui) {
@@ -128,7 +129,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
         this.update++;
 
         if (this.update % 4 == 0) {
-            this.addEntity(new StarEntity(StarEntity.Type.random(), (int) (Math.random() * Game.WIDTH)));
+            this.addEntity(new StarEntity((int) (Math.random() * Game.WIDTH)));
         }
 
         this.loopables.stream()

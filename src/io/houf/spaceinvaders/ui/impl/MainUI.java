@@ -5,7 +5,6 @@ import io.houf.spaceinvaders.ui.UI;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Arrays;
 
 public class MainUI extends UI {
     private final ButtonUI startButton;
@@ -47,7 +46,7 @@ public class MainUI extends UI {
 
     @Override
     public List<UI> getChildren() {
-        return Arrays.asList(
+        return List.of(
             this.startButton,
             this.quitButton
         );

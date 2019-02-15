@@ -32,16 +32,14 @@ public abstract class Entity implements Loopable {
         }
 
         if (this.dead) {
+            this.die(game);
             game.loopables.remove(this);
 
             return;
         }
 
-        if (!this.restrict(this.positionX, this.positionY, this.velocityX, this.velocityY)) {
-            this.positionX += this.velocityX;
-            this.positionY += this.velocityY;
-        }
-
+        this.positionX += this.velocityX;
+        this.positionY += this.velocityY;
         this.velocityX *= this.gravity;
         this.velocityY *= this.gravity;
 
@@ -72,8 +70,7 @@ public abstract class Entity implements Loopable {
     public void collide(Game game, Entity entity) {
     }
 
-    public boolean restrict(float x, float y, float velocityX, float velocityY) {
-        return false;
+    public void die(Game game) {
     }
 
     public boolean sessionOnly() {

@@ -35,7 +35,7 @@ public class InvaderEntity extends Entity {
 
     @Override
     public void draw(Game game, Graphics2D g) {
-       this.sprite.draw(this.getX(), this.getY(), g);
+        this.sprite.draw(this.getX(), this.getY(), g);
     }
 
     public enum Type {

@@ -4,16 +4,17 @@ import io.houf.spaceinvaders.Game;
 import io.houf.spaceinvaders.entity.Entity;
 
 import java.awt.*;
-import java.util.Random;
 
 public class StarEntity extends Entity {
-    public final Type type;
+    private final int opacity;
 
-    public StarEntity(Type type, int x) {
-        super(x, 0, type.size, type.size, 1.0f);
+    public StarEntity(int x) {
+        super(x, 0, 5, 5, 1.0f);
 
-        this.type = type;
-        this.move((float) Math.random() * 0.5f - 0.25f, type.velocity);
+        var velocity = (float) Math.random() * 5.0f;
+
+        this.opacity = (int) (velocity / 10 * 255);
+        this.move(0.0f, velocity + 5.0f);
     }
 
     @Override
@@ -22,7 +23,7 @@ public class StarEntity extends Entity {
 
     @Override
     public void draw(Game game, Graphics2D g) {
-        g.setColor(this.type.color);
+        g.setColor(new Color(255, 255, 255, this.opacity));
         g.fillRect(this.getX(), this.getY(), this.width, this.height);
     }
 
@@ -39,28 +40,5 @@ public class StarEntity extends Entity {
     @Override
     public boolean sessionOnly() {
         return false;
-    }
-
-    public enum Type {
-        SLOW(Color.DARK_GRAY, 5.0f, 3),
-        NORMAL(Color.GRAY, 10.0f, 4),
-        FAST(Color.LIGHT_GRAY, 15.0f, 5);
-
-        public final Color color;
-        public final float velocity;
-        public final int size;
-
-        Type(Color color, float velocity, int size) {
-            this.color = color;
-            this.velocity = velocity;
-            this.size = size;
-        }
-
-        public static Type random() {
-            var random = new Random();
-            var values = Type.values();
-
-            return values[random.nextInt(values.length)];
-        }
     }
 }

@@ -26,9 +26,9 @@ public class ShipEntity extends Entity {
     public void update(Game game) {
         super.update(game);
 
-        if (game.isDown(KeyEvent.VK_RIGHT)) {
+        if (game.isDown(KeyEvent.VK_RIGHT) && !game.isDown(KeyEvent.VK_LEFT) && this.getX() < Game.WIDTH - 75 - this.width) {
             this.move(3.0f, 0.0f);
-        } else if (game.isDown(KeyEvent.VK_LEFT)) {
+        } else if (game.isDown(KeyEvent.VK_LEFT) && !game.isDown(KeyEvent.VK_RIGHT) && this.getX() > 75) {
             this.move(-3.0f, 0.0f);
         }
     }
@@ -45,12 +45,14 @@ public class ShipEntity extends Entity {
         }
     }
 
-    private boolean friendlyLaser(Loopable loopable) {
-        return loopable instanceof LaserEntity && ((LaserEntity) loopable).type == LaserEntity.Type.FRIENDLY;
+    @Override
+    public void die(Game game) {
+        if (game.getCurrent().decreaseLives()) {
+            game.addEntity(new ShipEntity());
+        }
     }
 
-    @Override
-    public boolean restrict(float x, float y, float velocityX, float velocityY) {
-        return (x + velocityX <= 50.0f && velocityX < 0.0f) || (x + velocityX >= Game.WIDTH - 50.0f - this.width && velocityX > 0.0f);
+    private boolean friendlyLaser(Loopable loopable) {
+        return loopable instanceof LaserEntity && ((LaserEntity) loopable).type == LaserEntity.Type.FRIENDLY;
     }
 }
