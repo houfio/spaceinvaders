@@ -3,6 +3,7 @@ package io.houf.spaceinvaders.entity.impl;
 import io.houf.spaceinvaders.Game;
 import io.houf.spaceinvaders.entity.Entity;
 import io.houf.spaceinvaders.entity.Sprite;
+import io.houf.spaceinvaders.ui.impl.ResetUI;
 
 import java.awt.*;
 
@@ -28,7 +29,7 @@ public class InvaderEntity extends Entity {
 
         this.sprite.update();
 
-        if (Math.random() < 0.001f) {
+        if (Math.random() < 0.0001f) {
             game.addEntity(new LaserEntity(LaserEntity.Type.HOSTILE, this.getX() + this.width / 2, this.getY() + this.height));
         }
     }
@@ -36,6 +37,13 @@ public class InvaderEntity extends Entity {
     @Override
     public void draw(Game game, Graphics2D g) {
         this.sprite.draw(this.getX(), this.getY(), g);
+    }
+
+    @Override
+    public void die(Game game) {
+        if (!game.hasLoopable(InvaderEntity.class::isInstance)) {
+            game.openUI(new ResetUI(true));
+        }
     }
 
     public enum Type {

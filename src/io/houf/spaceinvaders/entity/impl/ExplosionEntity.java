@@ -45,4 +45,9 @@ public class ExplosionEntity extends Entity {
         g.setColor(new Color(255, this.green, 0, this.opacity));
         g.fillRect(this.getX(), this.getY(), this.width, this.height);
     }
+
+    @Override
+    public boolean sessionOnly() {
+        return false;
+    }
 }

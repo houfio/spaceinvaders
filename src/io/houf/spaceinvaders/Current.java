@@ -1,5 +1,7 @@
 package io.houf.spaceinvaders;
 
+import io.houf.spaceinvaders.entity.impl.InvaderEntity;
+import io.houf.spaceinvaders.entity.impl.ShipEntity;
 import io.houf.spaceinvaders.ui.impl.ResetUI;
 
 public class Current {
@@ -11,17 +13,24 @@ public class Current {
         this.game = game;
     }
 
-    public boolean decreaseLives() {
-        this.lives--;
+    public void initialize() {
+        this.game.addEntity(new ShipEntity());
 
-        if (this.lives > 0) {
-            return true;
+        for (var x = 0; x < 8; x++) {
+            for (var y = 0; y < 5; y++) {
+                var type = y > 2 ? InvaderEntity.Type.BOTTOM : y > 0 ? InvaderEntity.Type.MIDDLE : InvaderEntity.Type.TOP;
+
+                this.game.addEntity(new InvaderEntity(type, 35 + 56 * x, 50 + 44 * y));
+            }
         }
+    }
 
-        this.game.stopGame();
-        this.game.openUI(new ResetUI());
-
-        return false;
+    public void decreaseLives() {
+        if (--this.lives > 0) {
+            this.game.addEntity(new ShipEntity());
+        } else {
+            this.game.openUI(new ResetUI(false));
+        }
     }
 
     public int getLives() {

@@ -58,10 +58,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     public void startGame() {
         this.current = new Current(this);
-        this.addEntity(new ShipEntity());
-        this.addEntity(new InvaderEntity(InvaderEntity.Type.TOP, 100, 100));
-        this.addEntity(new InvaderEntity(InvaderEntity.Type.MIDDLE, 200, 200));
-        this.addEntity(new InvaderEntity(InvaderEntity.Type.BOTTOM, 300, 300));
+        this.current.initialize();
     }
 
     public void stopGame() {

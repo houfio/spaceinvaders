@@ -32,8 +32,8 @@ public abstract class Entity implements Loopable {
         }
 
         if (this.dead) {
-            this.die(game);
             game.loopables.remove(this);
+            this.die(game);
 
             return;
         }

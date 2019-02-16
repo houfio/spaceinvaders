@@ -47,9 +47,7 @@ public class ShipEntity extends Entity {
 
     @Override
     public void die(Game game) {
-        if (game.getCurrent().decreaseLives()) {
-            game.addEntity(new ShipEntity());
-        }
+        game.getCurrent().decreaseLives();
     }
 
     private boolean friendlyLaser(Loopable loopable) {

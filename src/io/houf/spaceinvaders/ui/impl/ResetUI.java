@@ -7,9 +7,11 @@ import java.awt.*;
 import java.util.List;
 
 public class ResetUI extends UI {
+    private final boolean success;
     private final ButtonUI backButton;
 
-    public ResetUI() {
+    public ResetUI(boolean success) {
+        this.success = success;
         this.backButton = new ButtonUI("Back to menu", 55, 380) {
             @Override
             public void click(Game game) {
@@ -20,13 +22,14 @@ public class ResetUI extends UI {
 
     @Override
     public void initialize(Game game) {
+        game.stopGame();
     }
 
     @Override
     public void draw(Game game, Graphics2D g) {
         g.setColor(Color.WHITE);
         g.setFont(Game.BIG_FONT);
-        g.drawString("Game over", 55, 320);
+        g.drawString(this.success ? "You win!" : "Game over!", 55, 320);
         g.setFont(Game.NORMAL_FONT);
     }
 
